@@ -16,3 +16,8 @@ patches:
     target:
       kind: Deployment
       name: argocd-repo-server
+
+  - path: patches/argocd-server-deployment.yaml
+    target:
+      kind: Deployment
+      name: argocd-server
