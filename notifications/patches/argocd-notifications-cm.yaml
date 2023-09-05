@@ -11,11 +11,9 @@ data:
     headers:
     - name: Content-Type
       value: multipart/form-data
-    - name: Authorization
-      value: Bearer ${{gitlab-token.token}}
 
   template.gitlab-webhook: |
     webhook:
       gitlab:
         method: POST
-        body: ref=main&token=${{gitlab-token.token}}&variables[APPLICATION_DEPLOY_STATUS]={{.app.status.sync.status}}&variables[APPLICATION_NAME]={{.app.metadata.name}}&variables[APPLICATION_GIT_COMMIT]={{.app.status.operationState.operation.sync.revision}}
+        body: ref=main&token=glptt-4afebc3a1f089b3dbb12533c9a5196c03f946950&variables[APPLICATION_DEPLOY_STATUS]={{.app.status.sync.status}}&variables[APPLICATION_NAME]={{.app.metadata.name}}&variables[APPLICATION_GIT_COMMIT]={{.app.status.operationState.operation.sync.revision}}
