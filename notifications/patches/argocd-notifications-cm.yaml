@@ -18,4 +18,4 @@ data:
     webhook:
       gitlab:
         method: POST
-        body: ref=main&token=$token&variables[APPLICATION_DEPLOY_STATUS]={{.app.status.sync.status}}&variables[APPLICATION_NAME]={{.app.metadata.name}}&variables[APPLICATION_GIT_COMMIT]={{.app.status.operationState.operation.sync.revision}}
+        body: ref=main&token=${{gitlab-token.token}}&variables[APPLICATION_DEPLOY_STATUS]={{.app.status.sync.status}}&variables[APPLICATION_NAME]={{.app.metadata.name}}&variables[APPLICATION_GIT_COMMIT]={{.app.status.operationState.operation.sync.revision}}
