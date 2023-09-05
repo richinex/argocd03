@@ -1,0 +1,41 @@
+# kind.yaml
+# This configuration defines a KIND cluster.
+
+# Specify the kind of the resource. Here, it's a Kubernetes cluster.
+kind: Cluster
+
+# Define the version of the KIND API to use.
+apiVersion: kind.x-k8s.io/v1alpha4
+
+# Define the nodes that will be part of the cluster.
+nodes:
+# Here, we are defining a single node with the role of "control-plane", which means it's a master node.
+- role: control-plane
+
+  # kubeadmConfigPatches allows patching of kubeadm configuration using strategic merge patches.
+  kubeadmConfigPatches:
+  # Below is a patch for kubeadm's InitConfiguration.
+  - |
+    kind: InitConfiguration
+
+    # This section is about the registration of the node with the cluster.
+    nodeRegistration:
+      # kubeletExtraArgs allows you to pass additional arguments to the kubelet.
+      # Here, we are adding a label "ingress-ready=true" to the node.
+      # This label can be used to determine nodes suitable for running ingress controllers or similar workloads.
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+
+  # extraPortMappings is used to expose additional ports from nodes.
+  # Here, we are exposing ports 80 and 443 (commonly used for web traffic) from the node's container to the host.
+  extraPortMappings:
+  # Expose container port 80 to host port 80 with protocol TCP.
+  - containerPort: 80
+    hostPort: 8080
+    protocol: TCP
+  # Expose container port 443 to host port 443 with protocol TCP.
+  - containerPort: 443
+    hostPort: 8443
+    protocol: TCP
+- role: worker
+- role: worker

@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1       # This indicates the version of Argo CD's Application custom resource definition (CRD) we are using.
+kind: Application                      # This indicates that we are creating an instance of the Argo CD Application CRD.
+metadata:
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync.gitlab: ""  # This is an annotation for Argo CD's notification plugin. When the application is synced, a notification would be sent. In this case, it looks like it's targeting a GitLab notification endpoint, but no specific endpoint is provided.
+  name: argocd                         # Name of the Application instance. This is how you would refer to this specific application in Argo CD.
+
+spec:                                  # The main specification of the Application.
+  destination:                         # Specifies where the resources from this application should be deployed.
+    namespace: argocd                  # The namespace in the cluster where the resources should be deployed.
+    server: https://kubernetes.default.svc  # The Kubernetes API server URL where the resources should be deployed. This default URL points to the cluster in which Argo CD is running.
+
+  project: default                     # Argo CD uses projects to control who can access what. "default" is a built-in project that allows all sources and destinations.
+
+  source:                              # Specifies the location of the Kubernetes manifests.
+    path: kustomize-installation       # Path within the Git repository where the manifests (or Kustomization) are located.
+    repoURL: https://github.com/richinex/argocd03.git  # URL of the Git repository that contains the Kubernetes manifests.
+    targetRevision: main               # The Git revision (branch, tag, or commit SHA) of the desired state of the application. In this case, it's the "main" branch.
+
+  syncPolicy:                          # The synchronization policy for this application.
+    automated: {}                      # This means Argo CD will automatically apply changes from the Git repository to the cluster. The empty braces {} indicate that it's enabled without any specific filters.
+
